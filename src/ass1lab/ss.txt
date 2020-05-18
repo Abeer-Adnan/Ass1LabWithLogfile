@@ -1,0 +1,11 @@
+
+************************** 
+ 
+Added new Doctor : 
+ 66    Ayman      35    ophthalmolgist
+Update Doctor to : 
+ 66    Mahmoud    40    ophthalmolgist
+Update Doctor to : 
+ 22    Omar       30    surgery
+Deleted Doctor : 
+ 66    Mahmoud    40    ophthalmolgist

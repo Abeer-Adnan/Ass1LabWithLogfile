@@ -88,7 +88,7 @@
                   </TableView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="2240.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="240.0">
                <children>
                   <Button fx:id="buttonView" mnemonicParsing="false" onAction="#buttonViewHandle" prefHeight="30.0" prefWidth="90.0" text="View">
                      <stylesheets>

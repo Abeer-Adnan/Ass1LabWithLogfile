@@ -5,6 +5,10 @@
  */
 package ass1lab;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sun.util.logging.PlatformLogger;
 
 /**
  * FXML Controller class
@@ -59,11 +66,13 @@ public class AssLabController implements Initializable {
     @FXML
     private Button buttonExit;
     Statement statement;
+    PrintWriter pw;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
           try {
            
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -75,6 +84,13 @@ public class AssLabController implements Initializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        try {
+            pw=new PrintWriter(new FileWriter(new File("src/ass1lab/ss.txt"),true));
+            pw.println("************************** \n ");
+        } catch (IOException ex) {
+            Logger.getLogger(AssLabController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
         tcID.setCellValueFactory(new PropertyValueFactory("id"));
         tcName.setCellValueFactory(new PropertyValueFactory("name"));
         tcAge.setCellValueFactory(new PropertyValueFactory("age"));
@@ -104,6 +120,7 @@ private void showSelectedDoctors() {
             doc.setSpecialization(rs.getString("specialization"));
             tableView.getItems().add(doc);
         }
+        pw.flush();
     }
                 
     
@@ -117,6 +134,9 @@ private void showSelectedDoctors() {
         String sql = "Insert Into doctors values(" + id + ",'" + name + "',"
                 + age + ",'" + specialization + "')";
         this.statement.executeUpdate(sql);
+        pw.println("Added new Doctor : \n "+ new doctors(id, name, age, specialization));
+        pw.flush();
+        
     }
 
     @FXML
@@ -128,6 +148,8 @@ private void showSelectedDoctors() {
         String sql = "Update doctors Set name='" + name + "', age="
                 + age + ", specialization='" + specialization + "' Where id=" + id;
         this.statement.executeUpdate(sql);
+        pw.println("Update Doctor to : \n "+ new doctors(id, name, age, specialization));
+        pw.flush();
     }
 
     @FXML
@@ -137,6 +159,8 @@ private void showSelectedDoctors() {
         Integer age = Integer.parseInt(textAge.getText());
         String specialization = textSpec.getText();
         String sql = "Delete From doctors Where id=" + id;
+        pw.println("Deleted Doctor : \n "+ new doctors(id, name, age, specialization));
+        pw.flush();
         this.statement.executeUpdate(sql);
     }
 

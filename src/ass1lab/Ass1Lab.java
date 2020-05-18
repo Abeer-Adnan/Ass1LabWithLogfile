@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -18,20 +19,19 @@ import javafx.stage.Stage;
  * @author rant
  */
 public class Ass1Lab extends Application{
-
+AssLabController c;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Pane paneTableView = FXMLLoader.load(getClass().getResource("assLab.fxml"));
-     
-        
-        Map<String,Pane>mapPanes=new TreeMap<>(); 
-        mapPanes.put("doctors", paneTableView);
-       
-        
-        Scene scene = new Scene(mapPanes.get("doctors"));
+        FXMLLoader f=new FXMLLoader();
+        Parent paneTableView = f.load(getClass().getResource("assLab.fxml"));       
+        c=f.getController();
+        Scene scene = new Scene(paneTableView);
         
         primaryStage.setTitle("Hospital App");
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(value->{
+            c.pw.close();
+        });
         primaryStage.show();
     }
     public static void main(String[] args) {
